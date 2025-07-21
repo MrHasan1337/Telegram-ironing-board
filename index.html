@@ -1,29 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Quantum Earning Portal</title>
+    <title>Neural Core Interface</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
         :root {
-            --bg-color: #111827;
-            --card-color: #1f2937;
-            --primary-accent: #38bdf8;
-            --secondary-accent: #818cf8;
-            --text-light: #f9fafb;
-            --text-dark: #9ca3af;
+            --bg-color: #050816;
+            --card-color: rgba(15, 23, 42, 0.7);
+            --glow-accent: #00c2ff;
+            --secondary-glow: #7a00ff;
+            --text-light: #f0f8ff;
+            --text-dark: #8892b0;
+            --border-color: rgba(0, 194, 255, 0.3);
         }
         body {
             margin: 0;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-light);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
@@ -34,7 +34,6 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.7;
         }
         .app-container {
             position: relative;
@@ -44,88 +43,101 @@
             border-radius: 1.5rem;
             text-align: center;
             width: 90%;
-            max-width: 380px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            box-shadow: 0 0 40px rgba(0, 194, 255, 0.2);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-out;
         }
-        /* Profile Section */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
         .profile-header {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
         }
         #profile-pic {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            border: 2px solid var(--primary-accent);
         }
         #user-info h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin: 0;
             text-align: left;
             font-weight: 500;
         }
-        #user-info p {
-            font-size: 0.9rem;
+         #user-info p {
+            font-size: 0.8rem;
             margin: 0;
             text-align: left;
             color: var(--text-dark);
         }
-        /* Stats Section */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin-bottom: 2rem;
-            text-align: left;
+            margin-bottom: 2.5rem;
         }
         .stat h3 {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-dark);
-            margin: 0 0 0.25rem 0;
+            margin: 0 0 0.5rem 0;
             font-weight: 400;
+            text-transform: uppercase;
         }
         .stat p {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
             margin: 0;
-            color: var(--primary-accent);
+            color: var(--glow-accent);
+            text-shadow: 0 0 10px var(--glow-accent);
+            transition: all 0.3s;
         }
-        /* Action Button */
-        .ad-button {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+        .stat p.flash {
             color: #fff;
-            border: none;
-            border-radius: 0.75rem;
+            transform: scale(1.1);
+        }
+        .action-button {
+            width: 150px;
+            height: 150px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #fff;
+            background: radial-gradient(circle, rgba(122, 0, 255, 0.5) 0%, rgba(0, 194, 255, 0.5) 100%);
+            border: 2px solid var(--glow-accent);
+            border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 25px rgba(0, 194, 255, 0.7);
+            animation: breathe 3s infinite ease-in-out;
         }
-        .ad-button:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+        @keyframes breathe {
+            0% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 194, 255, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(0, 194, 255, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 194, 255, 0.7); }
         }
-        /* Auto-Ad Toggle */
         .toggle-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.75rem 1rem;
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,0.3);
             border-radius: 0.75rem;
         }
         .toggle-label { font-size: 1rem; font-weight: 500; }
         .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #4b5563; transition: .4s; border-radius: 28px; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #374151; transition: .4s; border-radius: 28px; }
         .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-accent); }
+        input:checked + .slider { background-color: var(--glow-accent); }
         input:checked + .slider:before { transform: translateX(22px); }
     </style>
 </head>
@@ -135,26 +147,26 @@
         <header class="profile-header">
             <img id="profile-pic" src="" alt="P">
             <div id="user-info">
-                <h1 id="user-fullname">Welcome</h1>
-                <p id="user-username">Loading data...</p>
+                <h1 id="user-fullname">Neural Interface</h1>
+                <p>Status: Online</p>
             </div>
         </header>
 
         <div class="stats-grid">
             <div class="stat">
-                <h3>Watched Ads</h3>
+                <h3>Data Packets</h3>
                 <p id="watchedAds">0</p>
             </div>
             <div class="stat">
-                <h3>Earned Points</h3>
+                <h3>Compute Points</h3>
                 <p id="earnedPoints">0</p>
             </div>
         </div>
 
-        <button class="ad-button" id="watchAdBtn">Watch Ad</button>
+        <button class="action-button" id="watchAdBtn">Process<br>Data</button>
 
         <div class="toggle-container">
-            <span class="toggle-label">Auto Ads</span>
+            <span class="toggle-label">Auto-Processing</span>
             <label class="toggle-switch">
                 <input type="checkbox" id="autoAdSwitch">
                 <span class="slider"></span>
@@ -162,10 +174,10 @@
         </div>
     </div>
 
-    <!-- Monetag Vignette Ad Script -->
+    <!-- Monetag Ad Script -->
     <script src='//niphaumeenses.net/vignette.min.js' data-zone='9606459' data-sdk='show_9606459'></script>
     
-    <!-- Telegram & 3D Libraries -->
+    <!-- Libraries -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
     
@@ -174,65 +186,73 @@
             const tg = window.Telegram.WebApp;
             tg.ready();
             tg.expand();
-            tg.setHeaderColor('#111827');
 
-            // --- UI Elements ---
+            // --- UI & State ---
             const watchAdBtn = document.getElementById('watchAdBtn');
             const autoAdSwitch = document.getElementById('autoAdSwitch');
             const watchedAdsEl = document.getElementById('watchedAds');
             const earnedPointsEl = document.getElementById('earnedPoints');
-
-            // --- App State ---
-            let watchedAds = 0;
-            let earnedPoints = 0;
-            let autoAdsInterval = null;
+            let watchedAds = 0, earnedPoints = 0, autoAdsInterval = null;
             const POINTS_PER_AD = 10;
-            const AUTO_AD_INTERVAL = 3000; // 3 seconds
+            const AUTO_AD_INTERVAL = 3000;
 
-            // --- Load User Profile ---
+            // --- Sound Effects (Base64 encoded) ---
+            const clickSound = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVcVAAAACAgKDBINFBscHR8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ucHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/");
+            const pointSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAJABAAAAeaAAAEACgAAZGF0YQQAAAAAAAAAAAD//wIA/f8EAPz/AgD8/wIA/v8EAAAAAgD6/wIA/f8CAP3/BQD+/wMAAAAAAAD7/wIA/f8CAP3/BAD8/wMAAAD//wD5/wQA/P8CAP3/BAD8/wMA//8A+P8EAPv/AgD9/wQA/P8CAP//APf/BAD7/wIA/v8EAPv/AgD//wD4/wMA/P8BAP3/BAD7/wIA/v8A+f8CAP3/AgD9/wIA/f8EAPz/AA==");
+            clickSound.volume = 0.5;
+            pointSound.volume = 0.4;
+            
+            // --- User Profile ---
             const user = tg.initDataUnsafe?.user;
             if (user) {
                 document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp';
                 document.getElementById('user-fullname').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-                document.getElementById('user-username').textContent = user.username ? `@${user.username}` : `ID: ${user.id}`;
             }
 
             // --- Data Persistence ---
             function loadData() {
-                watchedAds = parseInt(localStorage.getItem('quantum_watchedAds') || '0');
-                earnedPoints = parseInt(localStorage.getItem('quantum_earnedPoints') || '0');
+                watchedAds = parseInt(localStorage.getItem('neuralCore_watchedAds_v1') || '0');
+                earnedPoints = parseInt(localStorage.getItem('neuralCore_earnedPoints_v1') || '0');
                 updateDisplay();
             }
             function saveData() {
-                localStorage.setItem('quantum_watchedAds', watchedAds);
-                localStorage.setItem('quantum_earnedPoints', earnedPoints);
+                localStorage.setItem('neuralCore_watchedAds_v1', watchedAds);
+                localStorage.setItem('neuralCore_earnedPoints_v1', earnedPoints);
             }
 
             // --- Core Ad Logic ---
             function showAd() {
-                // Check if the ad function from Monetag's script is available
                 if (typeof show_9606459 === 'function') {
                     show_9606459().then(() => {
-                        // This block runs if the ad is successfully shown (or closed)
+                        pointSound.play();
                         watchedAds++;
                         earnedPoints += POINTS_PER_AD;
-                        updateDisplay();
+                        updateDisplay(true); // Update with flash effect
                         saveData();
                     }).catch(error => {
                         console.error('Ad display error:', error);
                     });
                 } else {
-                    console.error("Monetag ad function 'show_9606459' not found.");
+                    console.error("Monetag function 'show_9606459' not found.");
                 }
             }
             
-            // --- UI Updates and Toggles ---
-            function updateDisplay() {
+            // --- UI Updates ---
+            function updateDisplay(flash = false) {
                 watchedAdsEl.textContent = watchedAds;
                 earnedPointsEl.textContent = earnedPoints;
+                if(flash) {
+                    earnedPointsEl.classList.add('flash');
+                    watchedAdsEl.classList.add('flash');
+                    setTimeout(() => {
+                        earnedPointsEl.classList.remove('flash');
+                        watchedAdsEl.classList.remove('flash');
+                    }, 300);
+                }
             }
 
             function toggleAutoAds() {
+                clickSound.play();
                 if (autoAdSwitch.checked) {
                     if (!autoAdsInterval) {
                         autoAdsInterval = setInterval(showAd, AUTO_AD_INTERVAL);
@@ -243,47 +263,75 @@
                 }
             }
             
-            watchAdBtn.addEventListener('click', showAd);
+            watchAdBtn.addEventListener('click', () => {
+                clickSound.play();
+                showAd();
+            });
             autoAdSwitch.addEventListener('change', toggleAutoAds);
 
             // --- 3D Scene ---
-            let scene, camera, renderer, sphere;
+            let scene, camera, renderer, core, rings = [];
             function initThree() {
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 2.5;
+                camera.position.z = 4;
                 renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 document.getElementById('three-canvas').appendChild(renderer.domElement);
-                
-                const geometry = new THREE.SphereGeometry(1.2, 32, 32);
-                const material = new THREE.MeshStandardMaterial({
-                    color: 0x818cf8,
-                    metalness: 0.5,
-                    roughness: 0.3,
-                    wireframe: true,
+
+                // Central Core
+                const coreGeometry = new THREE.IcosahedronGeometry(0.5, 3);
+                const coreMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x00c2ff,
+                    emissive: 0x7a00ff,
+                    emissiveIntensity: 3,
+                    metalness: 0.9,
+                    roughness: 0.2,
+                    flatShading: true
                 });
-                sphere = new THREE.Mesh(geometry, material);
-                scene.add(sphere);
-                
-                const light = new THREE.DirectionalLight(0xffffff, 1);
-                light.position.set(1, 1, 1);
+                core = new THREE.Mesh(coreGeometry, coreMaterial);
+                scene.add(core);
+
+                // Outer Rings
+                for (let i = 0; i < 4; i++) {
+                    const ringGeometry = new THREE.TorusGeometry(1.2 + i * 0.4, 0.01, 16, 100);
+                    const ringMaterial = new THREE.LineBasicMaterial({ 
+                        color: 0x00c2ff,
+                        transparent: true,
+                        opacity: 0.5
+                    });
+                    const ring = new THREE.LineSegments(new THREE.WireframeGeometry(ringGeometry), ringMaterial);
+                    rings.push(ring);
+                    scene.add(ring);
+                }
+
+                const light = new THREE.DirectionalLight(0xffffff, 0.5);
+                light.position.set(1, 1, 5);
                 scene.add(light);
                 
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
+                window.addEventListener('resize', onWindowResize);
                 animate();
             }
             const clock = new THREE.Clock();
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
             function animate() {
                 requestAnimationFrame(animate);
                 const elapsedTime = clock.getElapsedTime();
-                if(sphere) {
-                    sphere.rotation.y = elapsedTime * 0.2;
-                    sphere.rotation.x = elapsedTime * 0.1;
+                if(core) {
+                    core.rotation.y = elapsedTime * 0.5;
+                    core.rotation.x = elapsedTime * 0.3;
+                }
+                if(rings.length > 0) {
+                    rings[0].rotation.x = elapsedTime * 0.2;
+                    rings[1].rotation.y = -elapsedTime * 0.3;
+                    rings[2].rotation.z = elapsedTime * 0.4;
+                    rings[3].rotation.x = -elapsedTime * 0.1;
+                    rings[3].rotation.y = elapsedTime * 0.1;
                 }
                 renderer.render(scene, camera);
             }
