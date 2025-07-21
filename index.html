@@ -1,294 +1,202 @@
+
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Cyber Core Earning Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAY WARE Ads</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-        :root {
-            --bg-dark: #0a0f1e;
-            --bg-card: rgba(15, 22, 46, 0.6);
-            --glow-cyan: #00f6ff;
-            --glow-magenta: #ff00e5;
-            --text-light: #dbeaff;
-            --text-dark: #8c9dc0;
-        }
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            font-family: Arial, sans-serif;
+            background-color: #e3e3ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        #three-canvas {
-            position: fixed;
+
+        .app-container {
+            background-color: #3f3c94;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 350px;
+            color: #fff;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-container h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .developer {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            background-color: #524bb3;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .ad-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px 0;
+            background-color: #00aaff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .ad-button:hover {
+            background-color: #008ecc;
+        }
+
+        .toggle-container {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .toggle-container label {
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.5;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 15px;
         }
-        .container {
-            position: relative;
-            z-index: 1;
-            padding: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-        .header-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 1rem;
-            align-items: center;
-            background: var(--bg-card);
-            padding: 1rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(0, 246, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        #profile-pic {
-            width: 50px;
-            height: 50px;
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
             border-radius: 50%;
-            border: 2px solid var(--glow-cyan);
         }
-        #balance-display h3 {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            font-weight: 400;
+
+        input:checked + .slider {
+            background-color: #28a745;
         }
-        #balance {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--glow-cyan);
-            text-shadow: 0 0 10px var(--glow-cyan);
-        }
-        .hub-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
-            margin: 0.5rem 0;
-            color: var(--text-light);
-        }
-        .mission-card {
-            background: var(--bg-card);
-            padding: 1.2rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(0, 246, 255, 0.2);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        .mission-card h4 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--text-light);
-        }
-        .mission-card p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            flex-grow: 1;
-        }
-        .mission-button {
-            width: 100%;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 0.5rem;
-            color: #fff;
-            background: linear-gradient(90deg, var(--glow-magenta), var(--glow-cyan));
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .mission-button:hover:not(:disabled) {
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(0, 246, 255, 0.5);
-        }
-        .mission-button:disabled {
-            background: rgba(140, 157, 192, 0.2);
-            color: var(--text-dark);
-            cursor: not-allowed;
-        }
-        .cooldown-text {
-            text-align: center;
-            font-weight: 600;
-            color: var(--glow-cyan);
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
         }
     </style>
 </head>
+
 <body>
-
-    <div id="three-canvas"></div>
-    <div class="container">
-        <header class="header-grid">
-            <img id="profile-pic" src="" alt="U">
-            <div id="balance-display">
-                <h3>Your Balance</h3>
-                <p id="balance">0.00</p>
-            </div>
-        </header>
-
-        <h3 class="hub-title">Mission Hub</h3>
-
-        <!-- Mission 1 -->
-        <div class="mission-card">
-            <h4>Launch Ad Module</h4>
-            <p>Initiate the ad module to earn rewards. A new window will open.</p>
-            <button id="task1-btn" class="mission-button">Launch (+1.00)</button>
-            <div id="task1-timer" class="cooldown-text"></div>
-        </div>
-
-        <!-- Mission 2 -->
-        <div class="mission-card">
-            <h4>Visit Partner Site</h4>
-            <p>Visit one of our partner sites for a special bonus.</p>
-            <button id="task2-btn" class="mission-button">Visit (+1.00)</button>
-            <div id="task2-timer" class="cooldown-text"></div>
+    <div class="app-container">
+        <h1>PAY WARE Ads</h1>
+        <div class="developer">MR CHIKNA</div>
+        <div class="progress-circle" id="progress">0%</div>
+        <p>Watched Ads: <span id="watchedAds">0</span></p>
+        <p>Earned Points: <span id="earnedPoints">0</span></p>
+        <button class="ad-button" onclick="showAd()">Watch Ad</button>
+        <div class="toggle-container">
+            <label for="autoAdSwitch">Auto Ads:</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="autoAdSwitch" onchange="toggleAutoAds(this)">
+                <span class="slider"></span>
+            </label>
         </div>
     </div>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
+    <!-- External ad script should be loaded before custom JS -->
+    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8577878' data-sdk='show_8577878'></script>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tg = window.Telegram.WebApp;
-            tg.ready();
-            tg.expand();
-            tg.setHeaderColor('#0a0f1e');
+        let watchedAds = 0;
+        let earnedPoints = 0;
+        let autoAdsInterval = null;
 
-            const MONETAG_AD_URL = "//icvbuh.com/4/9606459";
-
-            // --- User Profile ---
-            const user = tg.initDataUnsafe?.user;
-            if (user && user.photo_url) {
-                document.getElementById('profile-pic').src = user.photo_url;
+        // Function to display an ad
+        function showAd() {
+            if (typeof show_8577878 === 'function') {
+                show_8577878().then(() => {
+                    watchedAds++;
+                    earnedPoints += 10; // Add 10 points per ad
+                    updateDisplay();
+                }).catch(error => {
+                    console.error('Ad failed to load or display:', error);
+                });
             } else {
-                document.getElementById('profile-pic').src = 'https://i.ibb.co/6Z6XgCg/crush.webp';
+                console.error('Ad script is not loaded or available.');
             }
+        }
 
-            // --- Balance Logic ---
-            const balanceElement = document.getElementById('balance');
-            let currentBalance = 0;
-            function loadBalance() {
-                currentBalance = parseFloat(localStorage.getItem('userBalance_v3') || '0');
-                balanceElement.textContent = currentBalance.toFixed(2);
+        // Update the display with current values
+        function updateDisplay() {
+            document.getElementById('watchedAds').innerText = watchedAds;
+            document.getElementById('earnedPoints').innerText = earnedPoints;
+            document.getElementById('progress').innerText = `${watchedAds * 10}%`;
+        }
+
+        // Toggle Auto Ads
+        function toggleAutoAds(toggle) {
+            if (toggle.checked) {
+                startAutoAds();
+            } else {
+                stopAutoAds();
             }
-            function saveBalance() {
-                localStorage.setItem('userBalance_v3', currentBalance);
+        }
+
+        // Start auto ads (3-second interval)
+        function startAutoAds() {
+            if (!autoAdsInterval) {
+                autoAdsInterval = setInterval(showAd, 3000); // Show ad every 3 seconds
             }
-            
-            // --- Task & Cooldown Logic ---
-            const tasks = {
-                task1: {
-                    button: document.getElementById('task1-btn'),
-                    timer: document.getElementById('task1-timer'),
-                    cooldown: 15, // 15 seconds
-                    reward: 1.00
-                },
-                task2: {
-                    button: document.getElementById('task2-btn'),
-                    timer: document.getElementById('task2-timer'),
-                    cooldown: 30, // 30 seconds
-                    reward: 1.00
-                }
-            };
+        }
 
-            function handleTaskClick(taskName) {
-                const task = tasks[taskName];
-                
-                // Attempt to open ad
-                window.open(MONETAG_AD_URL, '_blank');
-
-                // Update balance
-                currentBalance += task.reward;
-                saveBalance();
-                balanceElement.textContent = currentBalance.toFixed(2);
-                
-                // Set cooldown
-                const endTime = Date.now() + task.cooldown * 1000;
-                localStorage.setItem(`${taskName}_cooldownEnd`, endTime);
-                
-                // Disable button and start visual timer
-                updateCooldowns();
-            }
-
-            function updateCooldowns() {
-                for (const taskName in tasks) {
-                    const task = tasks[taskName];
-                    const endTime = parseInt(localStorage.getItem(`${taskName}_cooldownEnd`) || '0');
-                    const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
-
-                    if (remainingTime > 0) {
-                        task.button.disabled = true;
-                        task.timer.textContent = `Available in ${remainingTime}s`;
-                    } else {
-                        task.button.disabled = false;
-                        task.timer.textContent = '';
-                    }
-                }
-            }
-            
-            tasks.task1.button.addEventListener('click', () => handleTaskClick('task1'));
-            tasks.task2.button.addEventListener('click', () => handleTaskClick('task2'));
-
-            // Check cooldowns every second
-            setInterval(updateCooldowns, 1000);
-
-            // --- 3D Scene ---
-            let scene, camera, renderer, core;
-            function initThree() {
-                scene = new THREE.Scene();
-                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 2.5;
-                renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.getElementById('three-canvas').appendChild(renderer.domElement);
-
-                const geometry = new THREE.IcosahedronGeometry(1, 1);
-                const wireframe = new THREE.WireframeGeometry(geometry);
-                const material = new THREE.LineBasicMaterial({
-                    color: 0x00f6ff,
-                    linewidth: 2,
-                    transparent: true,
-                    opacity: 0.8
-                });
-                core = new THREE.LineSegments(wireframe, material);
-                scene.add(core);
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
-                animate();
-            }
-            const clock = new THREE.Clock();
-            function animate() {
-                requestAnimationFrame(animate);
-                const elapsedTime = clock.getElapsedTime();
-                if(core) {
-                    core.rotation.x = elapsedTime * 0.2;
-                    core.rotation.y = elapsedTime * 0.2;
-                }
-                renderer.render(scene, camera);
-            }
-
-            // --- Initialize App ---
-            loadBalance();
-            updateCooldowns();
-            initThree();
-        });
+        // Stop auto ads
+        function stopAutoAds() {
+            clearInterval(autoAdsInterval);
+            autoAdsInterval = null;
+        }
     </script>
-
 </body>
+
 </html>
