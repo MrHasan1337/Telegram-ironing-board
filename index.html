@@ -1,202 +1,297 @@
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAY WARE Ads</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Quantum Earning Portal</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        :root {
+            --bg-color: #111827;
+            --card-color: #1f2937;
+            --primary-accent: #38bdf8;
+            --secondary-accent: #818cf8;
+            --text-light: #f9fafb;
+            --text-dark: #9ca3af;
+        }
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #e3e3ff;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .app-container {
-            background-color: #3f3c94;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 350px;
-            color: #fff;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .app-container h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .developer {
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #ddd;
-        }
-
-        .progress-circle {
-            width: 120px;
-            height: 120px;
-            background-color: #524bb3;
-            border-radius: 50%;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .ad-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px 0;
-            background-color: #00aaff;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .ad-button:hover {
-            background-color: #008ecc;
-        }
-
-        .toggle-container {
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .toggle-container label {
-            cursor: pointer;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
+        #three-canvas {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 15px;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.7;
         }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.4s;
+        .app-container {
+            position: relative;
+            z-index: 1;
+            background: var(--card-color);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        #profile-pic {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            border: 2px solid var(--primary-accent);
         }
-
-        input:checked + .slider {
-            background-color: #28a745;
+        #user-info h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            text-align: left;
+            font-weight: 500;
         }
-
-        input:checked + .slider:before {
-            transform: translateX(28px);
+        #user-info p {
+            font-size: 0.9rem;
+            margin: 0;
+            text-align: left;
+            color: var(--text-dark);
         }
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .stat h3 {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin: 0 0 0.25rem 0;
+            font-weight: 400;
+        }
+        .stat p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-accent);
+        }
+        /* Action Button */
+        .ad-button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            color: #fff;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        .ad-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+        }
+        /* Auto-Ad Toggle */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 0.75rem;
+        }
+        .toggle-label { font-size: 1rem; font-weight: 500; }
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #4b5563; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-accent); }
+        input:checked + .slider:before { transform: translateX(22px); }
     </style>
 </head>
-
 <body>
+    <div id="three-canvas"></div>
     <div class="app-container">
-        <h1>PAY WARE Ads</h1>
-        <div class="developer">MR CHIKNA</div>
-        <div class="progress-circle" id="progress">0%</div>
-        <p>Watched Ads: <span id="watchedAds">0</span></p>
-        <p>Earned Points: <span id="earnedPoints">0</span></p>
-        <button class="ad-button" onclick="showAd()">Watch Ad</button>
+        <header class="profile-header">
+            <img id="profile-pic" src="" alt="P">
+            <div id="user-info">
+                <h1 id="user-fullname">Welcome</h1>
+                <p id="user-username">Loading data...</p>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat">
+                <h3>Watched Ads</h3>
+                <p id="watchedAds">0</p>
+            </div>
+            <div class="stat">
+                <h3>Earned Points</h3>
+                <p id="earnedPoints">0</p>
+            </div>
+        </div>
+
+        <button class="ad-button" id="watchAdBtn">Watch Ad</button>
+
         <div class="toggle-container">
-            <label for="autoAdSwitch">Auto Ads:</label>
+            <span class="toggle-label">Auto Ads</span>
             <label class="toggle-switch">
-                <input type="checkbox" id="autoAdSwitch" onchange="toggleAutoAds(this)">
+                <input type="checkbox" id="autoAdSwitch">
                 <span class="slider"></span>
             </label>
         </div>
     </div>
 
-    <!-- External ad script should be loaded before custom JS -->
-    <script src='//niphaumeenses.net/vignette.min.js' data-zone='8577878' data-sdk='show_8577878'></script>
+    <!-- Monetag Vignette Ad Script -->
+    <script src='//niphaumeenses.net/vignette.min.js' data-zone='9606459' data-sdk='show_9606459'></script>
+    
+    <!-- Telegram & 3D Libraries -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
     
     <script>
-        let watchedAds = 0;
-        let earnedPoints = 0;
-        let autoAdsInterval = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            const tg = window.Telegram.WebApp;
+            tg.ready();
+            tg.expand();
+            tg.setHeaderColor('#111827');
 
-        // Function to display an ad
-        function showAd() {
-            if (typeof show_8577878 === 'function') {
-                show_8577878().then(() => {
-                    watchedAds++;
-                    earnedPoints += 10; // Add 10 points per ad
-                    updateDisplay();
-                }).catch(error => {
-                    console.error('Ad failed to load or display:', error);
+            // --- UI Elements ---
+            const watchAdBtn = document.getElementById('watchAdBtn');
+            const autoAdSwitch = document.getElementById('autoAdSwitch');
+            const watchedAdsEl = document.getElementById('watchedAds');
+            const earnedPointsEl = document.getElementById('earnedPoints');
+
+            // --- App State ---
+            let watchedAds = 0;
+            let earnedPoints = 0;
+            let autoAdsInterval = null;
+            const POINTS_PER_AD = 10;
+            const AUTO_AD_INTERVAL = 3000; // 3 seconds
+
+            // --- Load User Profile ---
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp';
+                document.getElementById('user-fullname').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+                document.getElementById('user-username').textContent = user.username ? `@${user.username}` : `ID: ${user.id}`;
+            }
+
+            // --- Data Persistence ---
+            function loadData() {
+                watchedAds = parseInt(localStorage.getItem('quantum_watchedAds') || '0');
+                earnedPoints = parseInt(localStorage.getItem('quantum_earnedPoints') || '0');
+                updateDisplay();
+            }
+            function saveData() {
+                localStorage.setItem('quantum_watchedAds', watchedAds);
+                localStorage.setItem('quantum_earnedPoints', earnedPoints);
+            }
+
+            // --- Core Ad Logic ---
+            function showAd() {
+                // Check if the ad function from Monetag's script is available
+                if (typeof show_9606459 === 'function') {
+                    show_9606459().then(() => {
+                        // This block runs if the ad is successfully shown (or closed)
+                        watchedAds++;
+                        earnedPoints += POINTS_PER_AD;
+                        updateDisplay();
+                        saveData();
+                    }).catch(error => {
+                        console.error('Ad display error:', error);
+                    });
+                } else {
+                    console.error("Monetag ad function 'show_9606459' not found.");
+                }
+            }
+            
+            // --- UI Updates and Toggles ---
+            function updateDisplay() {
+                watchedAdsEl.textContent = watchedAds;
+                earnedPointsEl.textContent = earnedPoints;
+            }
+
+            function toggleAutoAds() {
+                if (autoAdSwitch.checked) {
+                    if (!autoAdsInterval) {
+                        autoAdsInterval = setInterval(showAd, AUTO_AD_INTERVAL);
+                    }
+                } else {
+                    clearInterval(autoAdsInterval);
+                    autoAdsInterval = null;
+                }
+            }
+            
+            watchAdBtn.addEventListener('click', showAd);
+            autoAdSwitch.addEventListener('change', toggleAutoAds);
+
+            // --- 3D Scene ---
+            let scene, camera, renderer, sphere;
+            function initThree() {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 2.5;
+                renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('three-canvas').appendChild(renderer.domElement);
+                
+                const geometry = new THREE.SphereGeometry(1.2, 32, 32);
+                const material = new THREE.MeshStandardMaterial({
+                    color: 0x818cf8,
+                    metalness: 0.5,
+                    roughness: 0.3,
+                    wireframe: true,
                 });
-            } else {
-                console.error('Ad script is not loaded or available.');
+                sphere = new THREE.Mesh(geometry, material);
+                scene.add(sphere);
+                
+                const light = new THREE.DirectionalLight(0xffffff, 1);
+                light.position.set(1, 1, 1);
+                scene.add(light);
+                
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+                animate();
             }
-        }
-
-        // Update the display with current values
-        function updateDisplay() {
-            document.getElementById('watchedAds').innerText = watchedAds;
-            document.getElementById('earnedPoints').innerText = earnedPoints;
-            document.getElementById('progress').innerText = `${watchedAds * 10}%`;
-        }
-
-        // Toggle Auto Ads
-        function toggleAutoAds(toggle) {
-            if (toggle.checked) {
-                startAutoAds();
-            } else {
-                stopAutoAds();
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                if(sphere) {
+                    sphere.rotation.y = elapsedTime * 0.2;
+                    sphere.rotation.x = elapsedTime * 0.1;
+                }
+                renderer.render(scene, camera);
             }
-        }
-
-        // Start auto ads (3-second interval)
-        function startAutoAds() {
-            if (!autoAdsInterval) {
-                autoAdsInterval = setInterval(showAd, 3000); // Show ad every 3 seconds
-            }
-        }
-
-        // Stop auto ads
-        function stopAutoAds() {
-            clearInterval(autoAdsInterval);
-            autoAdsInterval = null;
-        }
+            
+            // --- Initialize App ---
+            loadData();
+            initThree();
+        });
     </script>
 </body>
-
 </html>
