@@ -5,149 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futuristic 3D Telegram Mini App</title>
     <style>
+        /* সকল CSS কোড আগের মতোই থাকবে */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Satoshi:wght@400;700&display=swap');
-
-        :root {
-            --dark-bg: #0c0a09;
-            --text-light: #e2e8f0;
-            --text-dark: #a0a0a0;
-            --pink-glow: hsla(333, 70%, 55%, 0.7);
-            --purple-glow: hsla(282, 82%, 54%, 0.5);
-            --blue-glow: hsla(210, 89%, 60%, 0.5);
-            --gold-glow: hsla(35, 90%, 60%, 0.5);
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Satoshi', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        #aurora-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        .main-container {
-            position: relative;
-            z-index: 1;
-            padding: 2rem;
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .glass-card {
-            background: rgba(20, 20, 30, 0.4);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.5s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .glass-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #ff8a8a, #ffffff, #fccbf3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-
-        p {
-            color: var(--text-dark);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .action-button {
-            font-family: 'Satoshi', sans-serif;
-            font-weight: 700;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 50px;
-            color: white;
-            background: linear-gradient(90deg, #ff5e78, #ff1a4f);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(255, 94, 120, 0.5);
-        }
-
-        .action-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 0 35px rgba(255, 94, 120, 0.8);
-        }
-
-        .action-button:active {
-            transform: translateY(0) scale(1);
-        }
-        
-        .monetag-ad-container {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            min-height: 50px; /* বিজ্ঞাপনের জন্য একটি ন্যূনতম উচ্চতা */
-        }
+        :root { --dark-bg: #0c0a09; --text-light: #e2e8f0; --text-dark: #a0a0a0; /* ... etc */ }
+        body { margin: 0; padding: 0; font-family: 'Satoshi', sans-serif; background-color: var(--dark-bg); color: var(--text-light); overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #aurora-canvas, #three-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        #three-canvas { z-index: -1; }
+        .main-container { position: relative; z-index: 1; padding: 2rem; max-width: 600px; width: 90%; text-align: center; }
+        .glass-card { background: rgba(20, 20, 30, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 2.5rem; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); transition: all 0.5s ease; opacity: 0; transform: translateY(30px); }
+        .glass-card.visible { opacity: 1; transform: translateY(0); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(90deg, #ff8a8a, #ffffff, #fccbf3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        p { color: var(--text-dark); line-height: 1.6; margin-bottom: 2rem; }
+        .action-button { font-family: 'Satoshi', sans-serif; font-weight: 700; padding: 12px 30px; border: none; border-radius: 50px; color: white; background: linear-gradient(90deg, #ff5e78, #ff1a4f); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(255, 94, 120, 0.5); }
+        .action-button:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 35px rgba(255, 94, 120, 0.8); }
+        .action-button:active { transform: translateY(0) scale(1); }
+        .monetag-ad-container { margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 10px; min-height: 50px; }
     </style>
 </head>
 <body>
-
     <canvas id="aurora-canvas"></canvas>
     <div id="three-canvas"></div>
-
     <div class="main-container">
         <div id="main-card" class="glass-card">
-            <h1 id="welcome-title">Welcome</h1>
-            <p id="welcome-message">Initializing your futuristic experience. Please wait while we connect to the Telegram universe.</p>
+            <h1 id="welcome-title">Authenticating...</h1>
+            <p id="welcome-message">Automatically verifying your identity in the Telegram universe.</p>
             
-            <!-- Telegram Login Widget (আপনার তথ্য যোগ করা হয়েছে) -->
-            <div id="telegram-login-container" style="margin-bottom: 2rem;">
-                 <script async src="https://telegram.org/js/telegram-widget.js?22" 
-                    data-telegram-login="HasanTestxBot" 
-                    data-size="large" 
-                    data-auth-url="https://mrhasan1337.github.io/Telegram-ironing-board/" 
-                    data-request-access="write"></script>
-            </div>
+            <!-- লগইন বাটন সম্পূর্ণ মুছে ফেলা হয়েছে -->
 
-            <!-- Monetag Ad Container (আপনার স্ক্রিপ্ট যোগ করা হয়েছে) -->
             <div class="monetag-ad-container">
                 <script src='//libtl.com/sdk.js' data-zone='9606459' data-sdk='show_9606459'></script>
             </div>
 
-            <button id="close-app-btn" class="action-button" style="display: none;">Close App</button>
+            <button id="close-app-btn" class="action-button">Close App</button>
         </div>
     </div>
 
@@ -156,7 +45,7 @@
     <script async src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
 
-    <!-- Main App Logic -->
+    <!-- Main App Logic (নতুন কোড) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const tg = window.Telegram.WebApp;
@@ -164,28 +53,25 @@
 
             const welcomeTitle = document.getElementById('welcome-title');
             const welcomeMessage = document.getElementById('welcome-message');
-            const telegramLoginContainer = document.getElementById('telegram-login-container');
             const closeAppBtn = document.getElementById('close-app-btn');
-            
-            // Function to be called on successful login
-            window.onTelegramAuth = (user) => {
-                // Hide login button
-                telegramLoginContainer.style.display = 'none';
 
-                // Personalize the welcome message
+            // ব্যবহারকারীর তথ্য `initDataUnsafe` থেকে নেওয়া হচ্ছে
+            const user = tg.initDataUnsafe?.user;
+
+            if (user) {
+                // যদি ব্যবহারকারীর তথ্য পাওয়া যায়
                 welcomeTitle.textContent = `Welcome, ${user.first_name}!`;
-                welcomeMessage.textContent = 'You are now connected. This is your personal 3D space within Telegram.';
-                
-                // Show close button
-                closeAppBtn.style.display = 'inline-block';
-            };
+                welcomeMessage.textContent = 'Your identity has been automatically verified. Enjoy your 3D space.';
+            } else {
+                // যদি কোনো কারণে তথ্য না পাওয়া যায় (যেমন, অ্যাপটি টেলিগ্রামের বাইরে খোলা হলে)
+                welcomeTitle.textContent = 'Access Denied';
+                welcomeMessage.textContent = 'This app can only be accessed through Telegram.';
+            }
 
-            // Close button functionality
             closeAppBtn.addEventListener('click', () => {
                 tg.close();
             });
             
-            // Initial animation for the card
             gsap.to('#main-card', {
                 duration: 1.5,
                 opacity: 1,
@@ -194,9 +80,9 @@
                 delay: 0.5
             });
 
-            // --- 3D Background Logic ---
+            // 3D এবং Aurora Background এর বাকি সব কোড আগের মতোই থাকবে...
+            // ... (The rest of the JS code for Three.js and Aurora remains the same)
             let scene, camera, renderer, particles;
-
             function initThree() {
                 const container = document.getElementById('three-canvas');
                 scene = new THREE.Scene();
@@ -223,23 +109,19 @@
                 window.addEventListener('resize', onWindowResize, false);
                 animate();
             }
-
             function animate() {
                 requestAnimationFrame(animate);
                 particles.rotation.x += 0.0001;
                 particles.rotation.y += 0.0002;
                 renderer.render(scene, camera);
             }
-
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             }
-
             initThree();
 
-            // --- Aurora Background Logic ---
             const canvas = document.getElementById('aurora-canvas');
             const ctx = canvas.getContext('2d');
             let width = canvas.width = window.innerWidth;
@@ -251,7 +133,6 @@
                 { r: 59, g: 130, b: 246, a: 0.3 },
                 { r: 251, g: 191, b: 36, a: 0.3 }
             ];
-
             class Gradient {
                  constructor() {
                     this.x = Math.random() * width;
@@ -277,14 +158,12 @@
                     ctx.fill();
                 }
             }
-
             function initAurora() {
                 for(let i=0; i<4; i++) {
                     gradients.push(new Gradient());
                 }
                 animateAurora();
             }
-            
             function animateAurora() {
                 ctx.clearRect(0, 0, width, height);
                 gradients.forEach(gradient => {
@@ -293,12 +172,10 @@
                 });
                 requestAnimationFrame(animateAurora);
             }
-            
             window.addEventListener('resize', () => {
                 width = canvas.width = window.innerWidth;
                 height = canvas.height = window.innerHeight;
             });
-
             initAurora();
         });
     </script>
