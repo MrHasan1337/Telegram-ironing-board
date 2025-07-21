@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Advanced 3D Earning Dashboard</title>
+    <title>3D Earning Dashboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Satoshi:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700;900&display=swap');
         :root {
-            --dark-bg: #0a090c;
-            --card-bg: rgba(25, 25, 35, 0.4);
-            --text-light: #f0f0f5;
-            --text-dark: #a0a0b0;
-            --accent-gold: #ffd700;
+            --bg-color: #0d0d1a;
+            --card-bg: rgba(15, 15, 30, 0.5);
+            --glow-color: #00ffff;
+            --text-light: #e0e0ff;
+            --text-dark: #8a8a9e;
+            --accent-color: #ff00ff;
         }
         body {
             margin: 0;
             font-family: 'Satoshi', sans-serif;
-            background-color: var(--dark-bg);
+            background-color: var(--bg-color);
             color: var(--text-light);
             overflow-x: hidden;
             overflow-y: auto;
@@ -29,216 +30,271 @@
             height: 100%;
             z-index: -1;
         }
-        .main-container {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            max-width: 500px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fade-in-up 0.8s ease-out forwards;
-        }
-        @keyframes fade-in-up {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        /* Profile Card Styles */
-        #profile-card {
-            animation-delay: 0.2s;
+        .container {
+            padding: 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .hud-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            padding: 1.2rem;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), inset 0 0 15px rgba(0, 255, 255, 0.05);
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fade-in-scale 0.7s ease-out forwards;
+        }
+        @keyframes fade-in-scale {
+            to { opacity: 1; transform: scale(1); }
+        }
+        #profile-card {
+            animation-delay: 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         #profile-pic {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            border: 3px solid var(--accent-gold);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            object-fit: cover;
+            border: 2px solid var(--glow-color);
         }
-        #user-fullname {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
+        #user-info h2 {
             margin: 0;
-            background: linear-gradient(90deg, #ffffff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
-        #user-username {
+        #user-info p {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        #balance-card {
+            animation-delay: 0.2s;
+            text-align: center;
+        }
+        #balance-card h3 {
+            margin: 0 0 0.5rem 0;
             font-size: 1rem;
             color: var(--text-dark);
-            margin: -10px 0 0 0;
-        }
-
-        /* Stats Card Styles */
-        #stats-card {
-            animation-delay: 0.4s;
-        }
-        .stats-title {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-        .balance {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-        }
-
-        /* Monetag Ad Card Styles */
-        #monetag-card {
-            animation-delay: 0.6s;
-        }
-        .ad-title {
-            font-size: 0.8rem;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 400;
         }
-        /* Action Button (On-Click Ad) */
+        #balance {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--glow-color);
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+
+        #actions-card {
+            animation-delay: 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
         .action-button {
             font-family: 'Satoshi', sans-serif;
             font-weight: 700;
             font-size: 1rem;
-            padding: 14px 35px;
-            border: none;
-            border-radius: 50px;
-            color: #111;
-            background: linear-gradient(90deg, #ffd700, #f0b90b);
+            padding: 1rem;
+            border: 1px solid var(--accent-color);
+            border-radius: 10px;
+            color: var(--text-light);
+            background: linear-gradient(45deg, rgba(255,0,255,0.1), rgba(255,0,255,0.2));
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 15px rgba(255,0,255,0.2);
         }
-        .action-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 35px rgba(255, 215, 0, 0.7);
+        .action-button:hover:not(:disabled) {
+            background-color: rgba(255,0,255,0.3);
+            box-shadow: 0 0 25px rgba(255,0,255,0.4);
+            transform: translateY(-2px);
+        }
+        .action-button:disabled {
+            background: rgba(128, 128, 128, 0.1);
+            border-color: rgba(128,128,128,0.5);
+            color: var(--text-dark);
+            cursor: not-allowed;
+        }
+
+        #ad-card {
+            animation-delay: 0.4s;
+        }
+        #ad-card h3 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
+
     <div id="three-canvas"></div>
-    <div class="main-container">
 
-        <!-- Card 1: User Profile -->
-        <div id="profile-card" class="glass-card">
-            <img id="profile-pic" src="" alt="Profile Photo">
-            <h1 id="user-fullname">Loading...</h1>
-            <p id="user-username">@username</p>
-        </div>
-
-        <!-- Card 2: Stats -->
-        <div id="stats-card" class="glass-card">
-            <h2 class="stats-title">Current Balance</h2>
-            <p class="balance">$13.37</p>
-        </div>
-
-        <!-- Card 3: Monetag Ads -->
-        <div id="monetag-card" class="glass-card">
-            <h3 class="ad-title">Advertisements</h3>
-            
-            <!-- Monetag Method 1: In-Page Push (Banner) -->
-            <div id="in-page-ad-container" style="margin-bottom: 1.5rem;">
-                <script src='//libtl.com/sdk.js' data-zone='9606459' data-sdk='show_9606459'></script>
+    <div class="container">
+        <!-- Profile Card -->
+        <div id="profile-card" class="hud-card">
+            <img id="profile-pic" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="P"> <!-- Transparent placeholder -->
+            <div id="user-info">
+                <h2 id="user-fullname">Loading...</h2>
+                <p id="user-username">Verifying...</p>
             </div>
-            
-            <!-- Monetag Method 2: On-Click (Popunder) - বাটন এর মাধ্যমে -->
-            <!-- এই স্ক্রিপ্টটি এর ভেতরের যেকোনো লিঙ্কে ক্লিক করলে বিজ্ঞাপন চালু করবে -->
-            <script>(function(d,z,s){s.src='//'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('oaphoace.net', '9606459', document.createElement('script'))</script>
-            <a href="https://mrhasan1337.github.io/Telegram-ironing-board/" target="_blank">
-                <button class="action-button">Claim Reward (On-Click Ad)</button>
-            </a>
-            
+        </div>
+
+        <!-- Balance Card -->
+        <div id="balance-card" class="hud-card">
+            <h3>Total Balance</h3>
+            <p id="balance">0.00</p>
+        </div>
+
+        <!-- Actions Card -->
+        <div id="actions-card" class="hud-card">
+            <button id="claim-reward-btn" class="action-button">Claim Reward (+1.00)</button>
+            <div id="timer-text" style="text-align:center; color: var(--accent-color); display:none; font-weight:700;"></div>
+        </div>
+
+        <!-- Monetag Ad Card -->
+        <div id="ad-card" class="hud-card">
+            <h3>Advertisement</h3>
+            <!-- এইখানে আপনার Monetag ব্যানার কোডটি বসানো আছে -->
+            <div style="text-align: center;">
+                 <script src='//libtl.com/sdk.js' data-zone='9606459' data-sdk='show_9606459'></script>
+            </div>
         </div>
     </div>
 
     <!-- Libraries -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Initialize Telegram Web App
+            // --- Telegram and User Setup ---
             const tg = window.Telegram.WebApp;
             tg.ready();
-            tg.expand(); // অ্যাপটিকে পুরো স্ক্রিনে বড় করে
+            tg.expand();
 
-            // 2. Populate User Profile Data
             const user = tg.initDataUnsafe?.user;
             if (user) {
-                document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp'; // যদি ছবি না থাকে একটি ফলব্যাক ইমেজ
-                
-                let fullName = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-                document.getElementById('user-fullname').textContent = fullName;
-                
-                if (user.username) {
-                    document.getElementById('user-username').textContent = `@${user.username}`;
-                } else {
-                     document.getElementById('user-username').style.display = 'none';
-                }
+                // Fetch and set profile picture if available, otherwise use a fallback
+                document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp';
+                document.getElementById('user-fullname').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+                document.getElementById('user-username').textContent = user.username ? `@${user.username}` : `ID: ${user.id}`;
             } else {
-                 document.getElementById('user-fullname').textContent = "Welcome";
-                 document.getElementById('user-username').textContent = "Please access via Telegram";
+                 document.getElementById('user-fullname').textContent = "Guest";
+                 document.getElementById('user-username').textContent = "Please open in Telegram";
             }
 
-            // 3. Setup 3D Scene
-            let scene, camera, renderer, coin;
+            // --- Balance and Data Logic ---
+            const balanceElement = document.getElementById('balance');
+            const claimButton = document.getElementById('claim-reward-btn');
+            const timerText = document.getElementById('timer-text');
+            let balance = 0;
+            const REWARD_AMOUNT = 1.00;
+            const COOLDOWN_SECONDS = 10;
+
+            function loadBalance() {
+                const savedBalance = localStorage.getItem('userBalance_v1');
+                balance = savedBalance ? parseFloat(savedBalance) : 0;
+                updateBalanceDisplay();
+            }
+
+            function saveBalance() {
+                localStorage.setItem('userBalance_v1', balance.toString());
+            }
+
+            function updateBalanceDisplay() {
+                balanceElement.textContent = balance.toFixed(2);
+            }
+
+            claimButton.addEventListener('click', () => {
+                claimButton.disabled = true;
+                timerText.style.display = 'block';
+
+                let countdown = COOLDOWN_SECONDS;
+                timerText.textContent = `Claiming in ${countdown}s...`;
+
+                const interval = setInterval(() => {
+                    countdown--;
+                    timerText.textContent = `Claiming in ${countdown}s...`;
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        balance += REWARD_AMOUNT;
+                        saveBalance();
+                        updateBalanceDisplay();
+                        
+                        timerText.style.display = 'none';
+                        claimButton.disabled = false;
+                    }
+                }, 1000);
+            });
+
+            // --- 3D Scene Setup ---
+            let scene, camera, renderer, energyCore;
 
             function initThree() {
                 const container = document.getElementById('three-canvas');
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 3;
+                camera.position.z = 4;
 
                 renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 container.appendChild(renderer.domElement);
-
-                // Add Lights
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-                scene.add(ambientLight);
-                const pointLight = new THREE.PointLight(0xffffff, 0.8);
-                pointLight.position.set(2, 3, 4);
+                
+                // Lights
+                scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+                const pointLight = new THREE.PointLight(0x00ffff, 1.5, 100);
+                pointLight.position.set(0, 0, 2);
                 scene.add(pointLight);
+                
+                const accentLight = new THREE.PointLight(0xff00ff, 2, 100);
+                accentLight.position.set(0, 0, 2);
+                scene.add(accentLight);
 
-                // Create the 3D Coin
-                const coinGeometry = new THREE.CylinderGeometry(1, 1, 0.15, 64);
-                const coinMaterial = new THREE.MeshStandardMaterial({
-                    color: 0xffd700, // Gold color
+                // Advanced 3D Object: Energy Core (Torus Knot)
+                const geometry = new THREE.TorusKnotGeometry(1.2, 0.15, 128, 16);
+                const material = new THREE.MeshStandardMaterial({
+                    color: 0xcccccc,
                     metalness: 0.9,
-                    roughness: 0.3
+                    roughness: 0.2,
+                    emissive: 0xff00ff, // The glowing color
+                    emissiveIntensity: 0.5
                 });
-                coin = new THREE.Mesh(coinGeometry, coinMaterial);
-                scene.add(coin);
+                energyCore = new THREE.Mesh(geometry, material);
+                scene.add(energyCore);
 
                 window.addEventListener('resize', onWindowResize);
                 animate();
             }
 
+            let clock = new THREE.Clock();
+
             function animate() {
                 requestAnimationFrame(animate);
-                if(coin){
-                    coin.rotation.x += 0.005;
-                    coin.rotation.y += 0.01;
+                const elapsedTime = clock.getElapsedTime();
+
+                if(energyCore){
+                    energyCore.rotation.y = elapsedTime * 0.3;
+                    energyCore.rotation.x = elapsedTime * 0.1;
+                    energyCore.position.y = Math.sin(elapsedTime * 0.5) * 0.2;
                 }
+                
                 renderer.render(scene, camera);
             }
 
@@ -248,6 +304,8 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             }
 
+            // --- Initialize everything ---
+            loadBalance();
             initThree();
         });
     </script>
