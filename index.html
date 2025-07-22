@@ -3,28 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Neural Core Interface</title>
+    <title>Cosmic Bistro</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
         :root {
-            --bg-color: #050816;
-            --card-color: rgba(15, 23, 42, 0.7);
-            --glow-accent: #00c2ff;
-            --secondary-glow: #7a00ff;
-            --text-light: #f0f8ff;
-            --text-dark: #8892b0;
-            --border-color: rgba(0, 194, 255, 0.3);
+            --bg-color: #1a1a2e;
+            --card-color: #16213e;
+            --primary-accent: #e94560;
+            --secondary-accent: #0f3460;
+            --text-light: #ffffff;
+            --text-dark: #a8a8a8;
         }
         body {
             margin: 0;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
         #three-canvas {
@@ -35,143 +29,144 @@
             height: 100%;
             z-index: 0;
         }
-        .app-container {
-            position: relative;
+        .main-container, .admin-panel, .withdraw-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            box-sizing: border-box;
             z-index: 1;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .hidden-panel {
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .card {
             background: var(--card-color);
-            padding: 2rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 0 40px rgba(0, 194, 255, 0.2);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            animation: fadeIn 1s ease-out;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .profile-header {
+        .header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
+            justify-content: space-between;
         }
         #profile-pic {
             width: 45px;
             height: 45px;
             border-radius: 50%;
         }
-        #user-info h1 {
-            font-size: 1.1rem;
-            margin: 0;
-            text-align: left;
-            font-weight: 500;
-        }
-         #user-info p {
-            font-size: 0.8rem;
-            margin: 0;
-            text-align: left;
-            color: var(--text-dark);
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-        .stat h3 {
-            font-size: 0.8rem;
-            color: var(--text-dark);
-            margin: 0 0 0.5rem 0;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-        .stat p {
-            font-size: 2rem;
+        #balance {
+            font-size: 1.5rem;
             font-weight: 700;
-            margin: 0;
-            color: var(--glow-accent);
-            text-shadow: 0 0 10px var(--glow-accent);
-            transition: all 0.3s;
-        }
-        .stat p.flash {
-            color: #fff;
-            transform: scale(1.1);
         }
         .action-button {
-            width: 150px;
-            height: 150px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            line-height: 1.2;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: #fff;
-            background: radial-gradient(circle, rgba(122, 0, 255, 0.5) 0%, rgba(0, 194, 255, 0.5) 100%);
-            border: 2px solid var(--glow-accent);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 0 25px rgba(0, 194, 255, 0.7);
-            animation: breathe 3s infinite ease-in-out;
-        }
-        @keyframes breathe {
-            0% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 194, 255, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(0, 194, 255, 1); }
-            100% { transform: scale(1); box-shadow: 0 0 25px rgba(0, 194, 255, 0.7); }
-        }
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1rem;
-            background-color: rgba(0,0,0,0.3);
+            background: var(--primary-accent);
+            border: none;
             border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .toggle-label { font-size: 1rem; font-weight: 500; }
-        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #374151; transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--glow-accent); }
-        input:checked + .slider:before { transform: translateX(22px); }
+        .secondary-button {
+             background: var(--secondary-accent);
+        }
+        .admin-button {
+            background: #ffc107;
+            color: #000;
+        }
+        /* Admin & Withdraw Panel Styles */
+        .panel-header {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-accent);
+        }
+        .user-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--text-dark);
+            background: var(--bg-color);
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+        }
+
     </style>
 </head>
 <body>
+
     <div id="three-canvas"></div>
-    <div class="app-container">
-        <header class="profile-header">
+
+    <!-- Main User Interface -->
+    <div id="main-ui" class="main-container">
+        <div class="card header">
             <img id="profile-pic" src="" alt="P">
-            <div id="user-info">
-                <h1 id="user-fullname">Neural Interface</h1>
-                <p>Status: Online</p>
+            <div>
+                <p style="margin:0; font-size:0.8rem; color:var(--text-dark);">Balance</p>
+                <p id="balance">0</p>
             </div>
-        </header>
-
-        <div class="stats-grid">
-            <div class="stat">
-                <h3>Data Packets</h3>
-                <p id="watchedAds">0</p>
-            </div>
-            <div class="stat">
-                <h3>Compute Points</h3>
-                <p id="earnedPoints">0</p>
-            </div>
+            <button id="admin-panel-btn" class="admin-button" style="display:none; padding: 0.5rem 1rem;">Admin</button>
         </div>
 
-        <button class="action-button" id="watchAdBtn">Process<br>Data</button>
-
-        <div class="toggle-container">
-            <span class="toggle-label">Auto-Processing</span>
-            <label class="toggle-switch">
-                <input type="checkbox" id="autoAdSwitch">
-                <span class="slider"></span>
-            </label>
+        <div class="card" style="flex-grow: 1; text-align:center;">
+             <h2 style="margin-top:0;">Prepare Recipe</h2>
+             <p>Watch an ad to prepare a new recipe and earn Cosmic Coins.</p>
         </div>
+
+        <button class="action-button" id="watchAdBtn">Prepare (+10 Coins)</button>
+        <button class="action-button secondary-button" id="withdraw-btn" style="margin-top: 1rem;">Withdraw</button>
+    </div>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="admin-panel" class="admin-panel hidden-panel">
+        <h2 class="panel-header">Admin Panel</h2>
+        <div class="user-list-item">
+            <span>User: @example_user (ID: 12345)</span>
+            <div>
+                <button style="background:red;border:none;color:white;padding:5px;">Ban</button>
+                <button style="background:green;border:none;color:white;padding:5px;">Verify</button>
+            </div>
+        </div>
+        <div class="user-list-item">
+            <span>User: @another_user (ID: 67890)</span>
+            <div>
+                <button style="background:red;border:none;color:white;padding:5px;">Ban</button>
+                <button style="background:green;border:none;color:white;padding:5px;">Verify</button>
+            </div>
+        </div>
+        <p style="color:var(--text-dark); text-align:center; margin-top:1rem;">(This is a simulated user list)</p>
+        <button class="action-button secondary-button" id="admin-back-btn" style="margin-top: auto;">Back to App</button>
+    </div>
+    
+    <!-- Withdraw Panel (Hidden by default) -->
+    <div id="withdraw-panel" class="withdraw-panel hidden-panel">
+        <h2 class="panel-header">Withdraw Coins</h2>
+        <input type="text" id="withdraw-method" class="input-field" placeholder="Payment Method (e.g., bKash, Crypto Address)">
+        <input type="number" id="withdraw-amount" class="input-field" placeholder="Amount">
+        <button id="submit-withdraw" class="action-button">Submit Request</button>
+        <button class="action-button secondary-button" id="withdraw-back-btn" style="margin-top: 1rem;">Back</button>
     </div>
 
     <!-- Monetag Ad Script -->
@@ -180,166 +175,130 @@
     <!-- Libraries -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/three@0.148.0/build/three.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tg = window.Telegram.WebApp;
-            tg.ready();
-            tg.expand();
+    document.addEventListener('DOMContentLoaded', () => {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
 
-            // --- UI & State ---
-            const watchAdBtn = document.getElementById('watchAdBtn');
-            const autoAdSwitch = document.getElementById('autoAdSwitch');
-            const watchedAdsEl = document.getElementById('watchedAds');
-            const earnedPointsEl = document.getElementById('earnedPoints');
-            let watchedAds = 0, earnedPoints = 0, autoAdsInterval = null;
-            const POINTS_PER_AD = 10;
-            const AUTO_AD_INTERVAL = 3000;
+        const ADMIN_TELEGRAM_ID = 5271912123;
+        const user = tg.initDataUnsafe?.user;
 
-            // --- Sound Effects (Base64 encoded) ---
-            const clickSound = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVcVAAAACAgKDBINFBscHR8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ucHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/");
-            const pointSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAJABAAAAeaAAAEACgAAZGF0YQQAAAAAAAAAAAD//wIA/f8EAPz/AgD8/wIA/v8EAAAAAgD6/wIA/f8CAP3/BQD+/wMAAAAAAAD7/wIA/f8CAP3/BAD8/wMAAAD//wD5/wQA/P8CAP3/BAD8/wMA//8A+P8EAPv/AgD9/wQA/P8CAP//APf/BAD7/wIA/v8EAPv/AgD//wD4/wMA/P8BAP3/BAD7/wIA/v8A+f8CAP3/AgD9/wIA/f8EAPz/AA==");
-            clickSound.volume = 0.5;
-            pointSound.volume = 0.4;
-            
-            // --- User Profile ---
-            const user = tg.initDataUnsafe?.user;
-            if (user) {
-                document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp';
-                document.getElementById('user-fullname').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-            }
+        // --- UI Elements ---
+        const mainUI = document.getElementById('main-ui');
+        const adminPanel = document.getElementById('admin-panel');
+        const withdrawPanel = document.getElementById('withdraw-panel');
+        
+        // --- App State ---
+        let balance = 0;
 
-            // --- Data Persistence ---
-            function loadData() {
-                watchedAds = parseInt(localStorage.getItem('neuralCore_watchedAds_v1') || '0');
-                earnedPoints = parseInt(localStorage.getItem('neuralCore_earnedPoints_v1') || '0');
-                updateDisplay();
-            }
-            function saveData() {
-                localStorage.setItem('neuralCore_watchedAds_v1', watchedAds);
-                localStorage.setItem('neuralCore_earnedPoints_v1', earnedPoints);
-            }
+        // --- Role & Panel Management ---
+        if (user && user.id === ADMIN_TELEGRAM_ID) {
+            document.getElementById('admin-panel-btn').style.display = 'block';
+        }
 
-            // --- Core Ad Logic ---
-            function showAd() {
-                if (typeof show_9606459 === 'function') {
-                    show_9606459().then(() => {
-                        pointSound.play();
-                        watchedAds++;
-                        earnedPoints += POINTS_PER_AD;
-                        updateDisplay(true); // Update with flash effect
-                        saveData();
-                    }).catch(error => {
-                        console.error('Ad display error:', error);
-                    });
-                } else {
-                    console.error("Monetag function 'show_9606459' not found.");
-                }
-            }
-            
-            // --- UI Updates ---
-            function updateDisplay(flash = false) {
-                watchedAdsEl.textContent = watchedAds;
-                earnedPointsEl.textContent = earnedPoints;
-                if(flash) {
-                    earnedPointsEl.classList.add('flash');
-                    watchedAdsEl.classList.add('flash');
-                    setTimeout(() => {
-                        earnedPointsEl.classList.remove('flash');
-                        watchedAdsEl.classList.remove('flash');
-                    }, 300);
-                }
-            }
+        function showPanel(panelToShow) {
+            mainUI.classList.add('hidden-panel');
+            adminPanel.classList.add('hidden-panel');
+            withdrawPanel.classList.add('hidden-panel');
+            panelToShow.classList.remove('hidden-panel');
+        }
 
-            function toggleAutoAds() {
-                clickSound.play();
-                if (autoAdSwitch.checked) {
-                    if (!autoAdsInterval) {
-                        autoAdsInterval = setInterval(showAd, AUTO_AD_INTERVAL);
-                    }
-                } else {
-                    clearInterval(autoAdsInterval);
-                    autoAdsInterval = null;
-                }
-            }
-            
-            watchAdBtn.addEventListener('click', () => {
-                clickSound.play();
-                showAd();
-            });
-            autoAdSwitch.addEventListener('change', toggleAutoAds);
+        document.getElementById('admin-panel-btn').addEventListener('click', () => showPanel(adminPanel));
+        document.getElementById('admin-back-btn').addEventListener('click', () => showPanel(mainUI));
+        document.getElementById('withdraw-btn').addEventListener('click', () => showPanel(withdrawPanel));
+        document.getElementById('withdraw-back-btn').addEventListener('click', () => showPanel(mainUI));
 
-            // --- 3D Scene ---
-            let scene, camera, renderer, core, rings = [];
-            function initThree() {
-                scene = new THREE.Scene();
-                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 4;
-                renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setPixelRatio(window.devicePixelRatio);
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.getElementById('three-canvas').appendChild(renderer.domElement);
+        // --- User Profile & Data ---
+        if (user) {
+            document.getElementById('profile-pic').src = user.photo_url || 'https://i.ibb.co/6Z6XgCg/crush.webp';
+        }
+        function loadData() {
+            balance = parseInt(localStorage.getItem('cosmic_balance_v1') || '0');
+            document.getElementById('balance').textContent = balance;
+        }
+        function saveData() {
+            localStorage.setItem('cosmic_balance_v1', balance);
+            document.getElementById('balance').textContent = balance;
+        }
 
-                // Central Core
-                const coreGeometry = new THREE.IcosahedronGeometry(0.5, 3);
-                const coreMaterial = new THREE.MeshStandardMaterial({
-                    color: 0x00c2ff,
-                    emissive: 0x7a00ff,
-                    emissiveIntensity: 3,
-                    metalness: 0.9,
-                    roughness: 0.2,
-                    flatShading: true
-                });
-                core = new THREE.Mesh(coreGeometry, coreMaterial);
-                scene.add(core);
-
-                // Outer Rings
-                for (let i = 0; i < 4; i++) {
-                    const ringGeometry = new THREE.TorusGeometry(1.2 + i * 0.4, 0.01, 16, 100);
-                    const ringMaterial = new THREE.LineBasicMaterial({ 
-                        color: 0x00c2ff,
-                        transparent: true,
-                        opacity: 0.5
-                    });
-                    const ring = new THREE.LineSegments(new THREE.WireframeGeometry(ringGeometry), ringMaterial);
-                    rings.push(ring);
-                    scene.add(ring);
-                }
-
-                const light = new THREE.DirectionalLight(0xffffff, 0.5);
-                light.position.set(1, 1, 5);
-                scene.add(light);
-                
-                window.addEventListener('resize', onWindowResize);
-                animate();
-            }
-            const clock = new THREE.Clock();
-            function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-            function animate() {
-                requestAnimationFrame(animate);
-                const elapsedTime = clock.getElapsedTime();
-                if(core) {
-                    core.rotation.y = elapsedTime * 0.5;
-                    core.rotation.x = elapsedTime * 0.3;
-                }
-                if(rings.length > 0) {
-                    rings[0].rotation.x = elapsedTime * 0.2;
-                    rings[1].rotation.y = -elapsedTime * 0.3;
-                    rings[2].rotation.z = elapsedTime * 0.4;
-                    rings[3].rotation.x = -elapsedTime * 0.1;
-                    rings[3].rotation.y = elapsedTime * 0.1;
-                }
-                renderer.render(scene, camera);
-            }
-            
-            // --- Initialize App ---
-            loadData();
-            initThree();
+        // --- Core Ad Logic ---
+        document.getElementById('watchAdBtn').addEventListener('click', () => {
+             if (typeof show_9606459 === 'function') {
+                show_9606459().then(() => {
+                    balance += 10;
+                    saveData();
+                }).catch(err => console.error("Ad error:", err));
+             }
         });
+        
+        // --- Withdraw Logic ---
+        document.getElementById('submit-withdraw').addEventListener('click', () => {
+            const method = document.getElementById('withdraw-method').value;
+            const amount = document.getElementById('withdraw-amount').value;
+            if(!method || !amount) {
+                tg.showAlert("Please fill all fields.");
+                return;
+            }
+            if(amount > balance) {
+                tg.showAlert("Insufficient balance.");
+                return;
+            }
+            
+            // Simulate sending data to admin
+            const message = `New Withdraw Request:\nUser: ${user.first_name} (ID: ${user.id})\nMethod: ${method}\nAmount: ${amount}`;
+            tg.showAlert("Withdraw request sent! The admin will process it shortly.");
+            // In a real app, you'd send this to your backend, which then notifies the admin.
+            // For now, we just show an alert.
+            showPanel(mainUI);
+        });
+
+        // --- 3D Scene ---
+        let scene, camera, renderer, foodModel;
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 2);
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            document.getElementById('three-canvas').appendChild(renderer.domElement);
+
+            const light = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(light);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            // Using a simple TorusKnot as a placeholder for a food model
+            // For a custom model, you would use GLTFLoader
+            const geometry = new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xe94560,
+                metalness: 0.5,
+                roughness: 0.5
+            });
+            foodModel = new THREE.Mesh(geometry, material);
+            scene.add(foodModel);
+
+            animate();
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            if(foodModel) {
+                foodModel.rotation.y += 0.01;
+                foodModel.rotation.x += 0.005;
+            }
+            renderer.render(scene, camera);
+        }
+
+        // Initialize
+        loadData();
+        initThree();
+    });
     </script>
+
 </body>
 </html>
